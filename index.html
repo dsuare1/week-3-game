@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Derrick Suarez - Hangman Game</title>
+    <link href="assets/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <img src="assets/images/middle-earth-map.jpg" id="bg" alt="Map of Middle Earth">
+    <!-- wrapper for centering -->
+    <div class="wrapper">
+        <!-- content container -->
+        <div class="container">
+            <h1>Hangman</h1>
+            <p id="sean-bean">(aka Sean Bean in every movie)</p>
+            <h3>Press any key to begin your quest!</h3>
+            <!-- container for two columns -->
+            <div id="column-wrapper">
+                <!-- left side content under "Press any key" -->
+                <div id="left">
+                    <img id="fellowship" src="assets/images/fellowship.jpg" alt="Aragorn and Eowyn">
+                </div>
+                <!-- right side content under "Press any key" -->
+                <div id="right">
+                    <div class="dynamic-content" id="current-word">Current character: </div>
+                    <div class="dynamic-content" id="wins">Number of wins: </div>
+                    <div class="dynamic-content" id="remaining-guesses">Number of guesses remaining: </div>
+                    <div class="dynamic-content" id="letters-guessed">Letters already guessed: </div>
+                </div>
+            </div>
+            <!-- end of container for two columns -->
+        </div>
+        <!-- end of content container -->
+    </div>
+
+
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
+</body>
+
+</html>
