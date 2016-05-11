@@ -11,11 +11,9 @@ window.onload = function() {
 
     // selects random character from chars array
     var curWord = chars[Math.floor(Math.random() * chars.length)].toLowerCase();;
-    console.log(curWord);
 
     // variable to hold char img source
     var imgSrc = "src='assets/images/" + curWord + ".jpg' alt='Character Image'";
-    console.log(imgSrc);
 
     // pick image relating to character
     document.querySelector("#left").innerHTML = "<img id='img-hint'" + imgSrc + ">";
@@ -26,71 +24,60 @@ window.onload = function() {
     for (var i = 0; i < curWord.length; i++) {
         activeWord[i] = "_";
     }
-    console.log(activeWord);
-    console.log(curWord);
 
     // creates the counter to keep track of the state of current word
     var remainingLetters = curWord.length;
-    console.log(remainingLetters);
-
-
 
     // Display HTML & variables
     // sets wins to display as 0
-    document.querySelector('#wins').innerHTML = "Wins:<br>" + wins;
+    document.querySelector('#wins').innerHTML = "Wins:<br><br>" + wins;
 
     // sets remaining guess to display as 9
-    document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br>" + remGuesses;
+    document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br><br>" + remGuesses;
 
     // displays the curWord as dashes
-    document.querySelector('#current-word').innerHTML = "Current character:<br>" + activeWord.join(" ");
+    document.querySelector('#current-word').innerHTML = "Current character:<br><br>" + activeWord.join(" ");
 
 
     // reset game function
     function resetGame() {
 
-        console.log("reset was called");
-
-        wins = 0;
         remGuesses = 9;
         lettersGuessed = [];
         correctLettersGuessed = [];
         curWord = chars[Math.floor(Math.random() * chars.length)].toLowerCase();;
-        console.log(curWord);
 
-        // variable to hold char img source
+        // reassigns variable to hold char img source
         imgSrc = "src='assets/images/" + curWord + ".jpg' alt='Character Image'";
-        console.log(imgSrc);
 
         // pick image relating to character
         document.querySelector("#left").innerHTML = "<img id='img-hint'" + imgSrc + ">";
 
-        // creates the active word array so it can be displayed as underscores
+        // reassigns the active word array so it can be displayed as underscores
         activeWord = [];
 
         for (var i = 0; i < curWord.length; i++) {
             activeWord[i] = "_";
         }
-        console.log(activeWord);
-        console.log(curWord);
 
-        // creates the counter to keep track of the state of current word
+        // reassigns the counter to keep track of the state of current word
         remainingLetters = curWord.length;
-        console.log(remainingLetters);
 
         document.querySelector('h3').innerHTML = "Press any key to begin your quest!";
 
         // sets wins to display as 0
-        document.querySelector('#wins').innerHTML = "Wins:<br>" + wins;
+        document.querySelector('#wins').innerHTML = "Wins:<br><br>" + wins;
 
         // sets remaining guess to display as 9
-        document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br>" + remGuesses;
+        document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br><br>" + remGuesses;
 
         // displays the curWord as dashes
-        document.querySelector('#current-word').innerHTML = "Current character:<br>" + activeWord.join(" ");
+        document.querySelector('#current-word').innerHTML = "Current character:<br><br>" + activeWord.join(" ");
 
-        document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br>";
+        // displays the reset status of the 'letters already guessed' array
+        document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>";
 
+        // re-displays the game board upon invocation (after timeout) of 'resetGame' function
         document.querySelector('#column-wrapper').style.display = "block";
     }
 
@@ -99,7 +86,6 @@ window.onload = function() {
 
         // declares variable userGuess and assigns it the value of the key pressed by the user
         var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-        console.log(userGuess);
 
         // check activeWord array to see if correctly guessed letter is already present
         if ((activeWord.indexOf(userGuess) !== -1)) {
@@ -111,16 +97,14 @@ window.onload = function() {
             if (curWord.charAt(j) === userGuess) {
                 activeWord[j] = userGuess;
                 remainingLetters--;
-                console.log(remainingLetters);
-                document.querySelector('#current-word').innerHTML = "Current character:<br>" + activeWord.join(" ");
-                console.log(activeWord);
+                document.querySelector('#current-word').innerHTML = "Current character:<br><br>" + activeWord.join(" ");
             }
         }
 
         // // checks to see if userGuess is NOT in the word AND that letter is already in the "letters already guessed" array to not duplicate
-        // // that letter in the array   --> DOESN'T WORK
+        // // that letter in the array
         if ((curWord.indexOf(userGuess) === -1) && (lettersGuessed.indexOf(userGuess) !== -1)) {
-            document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br>" + lettersGuessed.join(", ");
+            document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>" + lettersGuessed.join(", ");
             return;
         }
 
@@ -133,24 +117,27 @@ window.onload = function() {
             }
         }
 
-        // if ((remainingLetters === 0) || (remGuesses === 0)) {
-        //     resetGame();
-        // }
-
+        // check to see if game is over, either b/c user guessed word || b/c user ran out of guesses
         if (remainingLetters === 0) {
-            // alert("Nice job!  Get ready for the next character!");
-            document.querySelector("h3").innerHTML = "Nice job!  Get ready for the next character!";
+            var audio = new Audio('assets/sounds/clever.mp3');
+            audio.play();
+            wins++;
+            document.querySelector("h3").innerHTML = "Nice job!<br><br>  Get ready for the next character!";
             document.querySelector("#column-wrapper").style.display = "none";
-            setTimeout(resetGame, 3000);
+            setTimeout(resetGame, 4000);
         } else if (remGuesses === 0) {
-            document.querySelector("h3").innerHTML = "You ran out of guesses!  Get ready for the next word...";
+            var audio = new Audio('assets/sounds/claim.mp3');
+            audio.play();
+            document.querySelector("h3").innerHTML = "You ran out of guesses!<br><br>  Get ready for the next word...";
             document.querySelector("#column-wrapper").style.display = "none";
-            setTimeout(resetGame, 3000);
+            setTimeout(resetGame, 4000);
         }
 
-        document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br>" + remGuesses;
+        // display remaining guesses (updated w/ each keystroke [except w/ duplicate keys])
+        document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br><br>" + remGuesses;
 
-        document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br>" + lettersGuessed.join(", ");
+        // display letters already guessed (updated w/ each keystroke [except w/ duplicate keys])
+        document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>" + lettersGuessed.join(", ");
     }
 
 }

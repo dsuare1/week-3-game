@@ -1,8 +1,8 @@
+@font-face { font-family: Delicious; src: url('../fonts/ringbearer/font.ttf'); }
+
 * {
     box-sizing: border-box;
 }
-
-/*@font-face { font-family: Delicious; src: url('RINGM___.otf'); } */
 
 #bg {
     position: fixed;
@@ -20,10 +20,8 @@
 
 .container {
     position: absolute;
-    /*background-color: #453a24;*/
     background-color: rgba(69, 58, 36, 0.92);
     padding: 20px;
-    /*opacity: 0.92;*/
     height: 805px;
     width: 70%;
 }
@@ -31,12 +29,14 @@
 /* HEADER */
 
 h1 {
+	font-family: Delicious;
     text-align: center;
     font-size: 6em;
     color: #eee;
 }
 
 #sean-bean {
+	font-family: Delicious;
     text-align: center;
     font-size: .8em;
     color: #eee;
@@ -44,6 +44,7 @@ h1 {
 }
 
 h3 {
+	font-family: Delicious;
     text-align: center;
     font-size: 2em;
     color: #eee;
@@ -56,6 +57,7 @@ h3 {
 
 
 #column-wrapper {
+	font-family: Delicious;
 	display: inline-block;
 	height: auto;
 	width: 100%;
@@ -88,6 +90,7 @@ h3 {
 
 .dynamic-content {
     width: 75%;
+    height: 100px;
     margin-top: 0;
     margin-bottom: 10px;
     padding-bottom: 5%;
@@ -96,5 +99,5 @@ h3 {
     text-align: center;
     font-size: 1.5em;
     color: #eee;
-/*    border: 1px groove #eee;*/
+    border: 1px groove #eee;
 }
