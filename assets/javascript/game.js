@@ -87,57 +87,61 @@ window.onload = function() {
         // declares variable userGuess and assigns it the value of the key pressed by the user
         var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
-        // check activeWord array to see if correctly guessed letter is already present
-        if ((activeWord.indexOf(userGuess) !== -1)) {
-            return;
-        }
+        // check to see if the user pressed only a letter key
+        if (event.keyCode > 64 && event.keyCode < 91) {
 
-        // check to see if userGuess is in the word; if so, update the 'activeWord' array with the userGuess
-        for (var j = 0; j < curWord.length; j++) {
-            if (curWord.charAt(j) === userGuess) {
-                activeWord[j] = userGuess;
-                remainingLetters--;
-                document.querySelector('#current-word').innerHTML = "Current character:<br><br>" + activeWord.join(" ");
+            // check activeWord array to see if correctly guessed letter is already present
+            if ((activeWord.indexOf(userGuess) !== -1)) {
+                return;
             }
-        }
 
-        // // checks to see if userGuess is NOT in the word AND that letter is already in the "letters already guessed" array to not duplicate
-        // // that letter in the array
-        if ((curWord.indexOf(userGuess) === -1) && (lettersGuessed.indexOf(userGuess) !== -1)) {
+            // check to see if userGuess is in the word; if so, update the 'activeWord' array with the userGuess
+            for (var j = 0; j < curWord.length; j++) {
+                if (curWord.charAt(j) === userGuess) {
+                    activeWord[j] = userGuess;
+                    remainingLetters--;
+                    document.querySelector('#current-word').innerHTML = "Current character:<br><br>" + activeWord.join(" ");
+                }
+            }
+
+            // // checks to see if userGuess is NOT in the word AND that letter is already in the "letters already guessed" array to not duplicate
+            // // that letter in the array
+            if ((curWord.indexOf(userGuess) === -1) && (lettersGuessed.indexOf(userGuess) !== -1)) {
+                document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>" + lettersGuessed.join(", ");
+                return;
+            }
+
+            // check to see if userGuess is NOT in the word; if it is not, push userGuess to the "Letters already guessed" array
+            for (var k = 0; k < curWord.length; k++) {
+                if (curWord.indexOf(userGuess) === -1) {
+                    lettersGuessed.push(userGuess)
+                    remGuesses--;
+                    break;
+                }
+            }
+
+            // check to see if game is over, either b/c user guessed word || b/c user ran out of guesses
+            if (remainingLetters === 0) {
+                var audio = new Audio('assets/sounds/clever.mp3');
+                audio.play();
+                wins++;
+                document.querySelector("h3").innerHTML = "Nice job!<br><br>  Get ready for the next character!";
+                document.querySelector("#column-wrapper").style.display = "none";
+                setTimeout(resetGame, 4000);
+            } else if (remGuesses === 0) {
+                var audio = new Audio('assets/sounds/claim.mp3');
+                audio.play();
+                document.querySelector("h3").innerHTML = "You ran out of guesses!<br><br>  Get ready for the next word...";
+                document.querySelector("#column-wrapper").style.display = "none";
+                setTimeout(resetGame, 4000);
+            }
+
+            // display remaining guesses (updated w/ each keystroke [except w/ duplicate keys])
+            document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br><br>" + remGuesses;
+
+            // display letters already guessed (updated w/ each keystroke [except w/ duplicate keys])
             document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>" + lettersGuessed.join(", ");
-            return;
         }
-
-        // check to see if userGuess is NOT in the word; if it is not, push userGuess to the "Letters already guessed" array
-        for (var k = 0; k < curWord.length; k++) {
-            if (curWord.indexOf(userGuess) === -1) {
-                lettersGuessed.push(userGuess)
-                remGuesses--;
-                break;
-            }
-        }
-
-        // check to see if game is over, either b/c user guessed word || b/c user ran out of guesses
-        if (remainingLetters === 0) {
-            var audio = new Audio('assets/sounds/clever.mp3');
-            audio.play();
-            wins++;
-            document.querySelector("h3").innerHTML = "Nice job!<br><br>  Get ready for the next character!";
-            document.querySelector("#column-wrapper").style.display = "none";
-            setTimeout(resetGame, 4000);
-        } else if (remGuesses === 0) {
-            var audio = new Audio('assets/sounds/claim.mp3');
-            audio.play();
-            document.querySelector("h3").innerHTML = "You ran out of guesses!<br><br>  Get ready for the next word...";
-            document.querySelector("#column-wrapper").style.display = "none";
-            setTimeout(resetGame, 4000);
-        }
-
-        // display remaining guesses (updated w/ each keystroke [except w/ duplicate keys])
-        document.querySelector('#remaining-guesses').innerHTML = "Remaining guesses:<br><br>" + remGuesses;
-
-        // display letters already guessed (updated w/ each keystroke [except w/ duplicate keys])
-        document.querySelector('#letters-guessed').innerHTML = "Letters already guessed:<br><br>" + lettersGuessed.join(", ");
     }
 
 }
